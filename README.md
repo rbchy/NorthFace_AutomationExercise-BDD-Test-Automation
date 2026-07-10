@@ -1,4 +1,5 @@
-# NorthFace_AutomationExercise-BDD-Test-Automation Framework (Selenium · Cucumber · TestNG · RestAssured · JUnit)
+# NorthFace_Automation – BDD Test Automation Framework (Selenium · Cucumber · TestNG · RestAssured · JUnit)
+
 ![Java](https://img.shields.io/badge/Java-17-red)
 ![Selenium](https://img.shields.io/badge/Selenium-4.21-43B02A)
 ![Cucumber](https://img.shields.io/badge/Cucumber-7.18-23D96C)
@@ -222,8 +223,7 @@ Three report layers are available:
 
 ## 👨‍💻 Author
 
-**Ranajit Baran Chowdhury**
-**QA Automation Engineer & SDET
+**RB Chowdhury**
 📧 chyranajit@gmail.com
 
 *Originally based on a framework by Rezaul Karim (QA Automation Engineer / SDET); extended and
@@ -238,4 +238,4 @@ it spans **UI, E2E, API, unit, accessibility, performance, and security**, and b
 **verified 100% pass rate — 21/21 Cucumber scenarios plus 48 JUnit tests, 69 total**. It documents two
 kinds of genuine engineering decisions: working around a live PerimeterX bot wall, and resolving a real
 Maven dependency-range conflict in the Allure/Cucumber reporting stack. Built to be readable,
-maintainable, and interview-ready. robust, multi-layer test automation framework demonstrating modern QA/SDET practice — UI, End-to-End, API, Unit, Accessibility, Performance, and Security testing in one project, with 69 automated tests and real, documented engineering decisions at its core.
+maintainable, and interview-ready.

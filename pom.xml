@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.northface</groupId>
+    <artifactId>northface-automation</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>North Face UI Automation Framework</name>
+    <description>Selenium + Cucumber (BDD) + TestNG + Maven framework using Page Object Model</description>
+
+    <!-- ============ Central version management ============ -->
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <selenium.version>4.21.0</selenium.version>
+        <cucumber.version>7.18.0</cucumber.version>
+        <testng.version>7.10.2</testng.version>
+        <webdrivermanager.version>5.9.2</webdrivermanager.version>
+        <surefire.version>3.2.5</surefire.version>
+        <junit.version>5.10.2</junit.version>
+        <allure.version>2.29.1</allure.version>
+        <!-- allure-commandline (the CLI the allure-maven plugin downloads to
+             render the report) is released from a different repo/train than
+             the Allure Java libraries (allure-bom/allure-cucumber7-jvm/etc),
+             so its version numbers don't line up 1:1. 2.27.0 is the version
+             this project already generated reports with successfully, kept
+             separate here so bumping allure.version for the library fix
+             doesn't also break report generation. -->
+        <allure.report.version>2.27.0</allure.report.version>
+    </properties>
+
+    <!-- Pin ALL JUnit artifacts to one consistent version so Allure's older
+         transitive junit-platform (1.9.x) cannot clash with junit-jupiter 5.10.
+         Import allure-bom too: allure-cucumber7-jvm previously carried an
+         explicit ${allure.version} that pulled io.cucumber:gherkin:26.2.0,
+         which requires io.cucumber:messages in range [19.1.4,23.0.0), while
+         cucumber-java:7.18.0 requires messages in [24.0.0,25.0.0). The two
+         ranges never overlap, so Maven's resolver hard-fails instead of
+         picking a version. Letting allure-bom manage the Allure artifact
+         versions (instead of hardcoding them below) resolves this to a
+         version set that's actually compatible with Cucumber 7.18.x. -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-bom</artifactId>
+                <version>${allure.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Selenium WebDriver -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
+        <!-- Cucumber core (Gherkin engine) -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <!-- Cucumber + TestNG integration -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <!-- Dependency injection: shares a TestContext across step classes -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <!-- TestNG -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+        </dependency>
+
+        <!-- Allure reporting adapters for Cucumber and JUnit 5.
+             No explicit <version> here: allure-bom (imported above) manages it. -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit 5: pure unit tests (run via the `unit` profile) -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- RestAssured: API testing (GET/POST + JSON assertions) -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- WebDriverManager: auto-downloads the correct ChromeDriver binary -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Surefire runs the TestNG suite (testng.xml) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <!-- Pass tags from CLI: mvn test -Dcucumber.filter.tags="@smoke" -->
+                    <systemPropertyVariables>
+                        <cucumber.filter.tags>${cucumber.filter.tags}</cucumber.filter.tags>
+                    </systemPropertyVariables>
+                </configuration>
+                <dependencies>
+                    <!-- Force the TestNG provider so the DEFAULT build runs the
+                         Cucumber suite (testng.xml). Without this, junit-jupiter on
+                         the classpath makes surefire auto-pick the JUnit provider and
+                         skip the Cucumber tests. JUnit unit tests run via -Punit. -->
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-testng</artifactId>
+                        <version>${surefire.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- Generates a structured HTML report from surefire XML results. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${surefire.version}</version>
+            </plugin>
+            <!-- Allure: interactive HTML report for JUnit + Cucumber results. -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.12.0</version>
+                <configuration>
+                    <reportVersion>${allure.report.version}</reportVersion>
+                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                </configuration>
+            </plugin>
+            <!-- Provides CSS/skin so the report renders styled. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>4.0.0-M13</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--
+      Default build ("mvn test") runs the Cucumber + TestNG suite via testng.xml.
+      The "unit" profile ("mvn test -Punit") instead runs ONLY the JUnit 5 unit
+      tests under src/test/java/.../unit, so the two never interfere.
+    -->
+    <profiles>
+        <profile>
+            <id>unit</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire.version}</version>
+                        <configuration>
+                            <!-- Clear the TestNG suite binding and run JUnit tests instead. -->
+                            <suiteXmlFiles combine.self="override"/>
+                            <includes>
+                                <include>**/unit/*Test.java</include>
+                            </includes>
+                        </configuration>
+                        <dependencies>
+                            <!-- Force the JUnit Platform provider for this profile. -->
+                            <dependency>
+                                <groupId>org.apache.maven.surefire</groupId>
+                                <artifactId>surefire-junit-platform</artifactId>
+                                <version>${surefire.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
