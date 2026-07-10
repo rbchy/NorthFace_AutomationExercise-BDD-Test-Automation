@@ -224,6 +224,7 @@ Three report layers are available:
 ## 👨‍💻 Author
 
 **RB Chowdhury**
+**QA Automation Engineer & SDET
 📧 chyranajit@gmail.com
 
 *Originally based on a framework by Rezaul Karim (QA Automation Engineer / SDET); extended and
