@@ -225,7 +225,7 @@ Three report layers are available:
 
 **Ranajit B Chowdhury**
 **QA Automation Engineer & SDET
-📧 Cell Phon 2673425565
+📧 Cell Phone 2673425565
 📧 chyranajit@gmail.com
 
 ---
