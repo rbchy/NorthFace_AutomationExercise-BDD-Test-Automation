@@ -223,12 +223,10 @@ Three report layers are available:
 
 ## 👨‍💻 Author
 
-**RB Chowdhury**
+**Ranajit B Chowdhury**
 **QA Automation Engineer & SDET
+📧 Cell Phon 2673425565
 📧 chyranajit@gmail.com
-
-*Originally based on a framework by Rezaul Karim (QA Automation Engineer / SDET); extended and
-maintained here, including the Maven/Allure dependency-resolution fix documented above.*
 
 ---
 
