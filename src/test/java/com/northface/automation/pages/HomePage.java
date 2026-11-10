@@ -53,6 +53,36 @@ public class HomePage extends BasePage {
         }
     }
 
+    /**
+     * Detects an anti-bot page instead of the real home page. thenorthface.com is protected by
+     * PerimeterX ("Press &amp; Hold to confirm you are a human", element id {@code px-captcha});
+     * a CDN may also answer with an "Access Denied" page. Such a page says nothing about the
+     * site itself, so the smoke steps report it as SKIPPED with this reason instead of failing
+     * with a misleading "logo not displayed".
+     *
+     * @return a short description of the block, or {@code null} when the real page is shown
+     */
+    public String botWallReason() {
+        String title = String.valueOf(driver.getTitle());
+        String source = String.valueOf(driver.getPageSource());
+        if (source.contains("px-captcha")) {
+            return "PerimeterX human-verification challenge (px-captcha)";
+        }
+        if (source.contains("Press & Hold") || source.contains("Press &amp; Hold")) {
+            return "PerimeterX 'Press & Hold' challenge";
+        }
+        if (title.toLowerCase().contains("access denied")) {
+            return "CDN 'Access Denied' page";
+        }
+        return null;
+    }
+
+    /** One line for the log: what the browser actually got. */
+    public String describeLoadedPage() {
+        String source = String.valueOf(driver.getPageSource());
+        return "title='" + driver.getTitle() + "', url=" + driver.getCurrentUrl() + ", html=" + source.length() + " chars";
+    }
+
     /** @return true when the brand logo is present (a lightweight "page loaded" signal). */
     public boolean isLogoDisplayed() {
         return isDisplayed(siteLogo);

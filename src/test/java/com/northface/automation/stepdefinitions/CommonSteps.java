@@ -5,6 +5,8 @@ import static org.testng.Assert.assertTrue;
 import com.northface.automation.pages.HomePage;
 import com.northface.automation.utils.DriverManager;
 
+import org.testng.SkipException;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 
@@ -28,6 +30,14 @@ public class CommonSteps {
         HomePage homePage = new HomePage(DriverManager.getDriver());
         homePage.open();
         context.setHomePage(homePage);
+        System.out.println("North Face home page: " + homePage.describeLoadedPage());
+
+        // A bot wall is the environment, not a site defect: skip (with the reason) rather than fail.
+        String botWall = homePage.botWallReason();
+        if (botWall != null) {
+            throw new SkipException("Blocked by the site's bot protection - " + botWall
+                    + ". Run from a normal (non-datacenter) network to exercise this check.");
+        }
     }
 
     @Then("the brand logo should be displayed")
