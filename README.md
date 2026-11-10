@@ -1,240 +1,269 @@
-# NorthFace_Automation – BDD Test Automation Framework (Selenium · Cucumber · TestNG · RestAssured · JUnit)
+<div align="center">
 
-![Java](https://img.shields.io/badge/Java-17-red)
-![Selenium](https://img.shields.io/badge/Selenium-4.21-43B02A)
-![Cucumber](https://img.shields.io/badge/Cucumber-7.18-23D96C)
-![TestNG](https://img.shields.io/badge/TestNG-7.10-orange)
-![Maven](https://img.shields.io/badge/Build-Maven-blue)
-![Tests](https://img.shields.io/badge/tests-69%20passing-brightgreen)
-![Pass rate](https://img.shields.io/badge/pass%20rate-100%25-brightgreen)
-![Report](https://img.shields.io/badge/report-Allure-orange)
-![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-blue)
+# 🏔️ NorthFace × Automation Exercise — BDD Test Automation Framework
 
-A robust, multi-layer test automation framework demonstrating modern QA/SDET practice — **UI, End-to-End,
-API, Unit, Accessibility, Performance, and Security testing** in one project, with **69 automated tests**
-and real, documented engineering decisions at its core.
+### Selenium + Cucumber + TestNG UI tests, RestAssured API tests and JUnit 5 unit tests, run against a bot-protected retail site and a live demo shop, in CI every day
 
-> Note: the CI badge was removed from this fork since it pointed at the original repo's GitHub Actions
-> run. Re-add `![CI](https://github.com/<your-username>/<your-repo>/actions/workflows/ci.yml/badge.svg)`
-> once this project is pushed to your own GitHub repo with the workflow enabled.
+[![Typing SVG](https://readme-typing-svg.demolab.com/?font=Fira+Code&size=18&pause=1500&color=E11D48&center=true&vCenter=true&width=900&repeat=true&lines=Java+17+%C2%B7+Selenium+4.21+%C2%B7+Cucumber+7.18+%C2%B7+TestNG;UI+%C2%B7+E2E+%C2%B7+API+%C2%B7+Unit+%C2%B7+Accessibility+%C2%B7+Performance;83+passed+%C2%B7+2+skipped+(bot+wall)+%C2%B7+headless+in+GitHub+Actions)](https://git.io/typing-svg)
 
----
+<!-- ============ STATUS BAR ============ -->
+[![CI](https://github.com/rbchy/NorthFace_AutomationExercise-BDD-Test-Automation/actions/workflows/ci.yml/badge.svg)](https://github.com/rbchy/NorthFace_AutomationExercise-BDD-Test-Automation/actions/workflows/ci.yml)
+![Tests](https://img.shields.io/badge/CI-83%20passed%20%C2%B7%202%20skipped-22c55e?style=for-the-badge&logo=checkmarx&logoColor=white)
+![Runs](https://img.shields.io/badge/Runs-every%20push%20%2B%20daily-0ea5e9?style=for-the-badge&logo=githubactions&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge)
 
-## 🌐 Applications Under Test
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Selenium](https://img.shields.io/badge/Selenium-4.21-43B02A?style=for-the-badge&logo=selenium&logoColor=white)
+![Cucumber](https://img.shields.io/badge/Cucumber-7.18-23D96C?style=for-the-badge&logo=cucumber&logoColor=white)
+![TestNG](https://img.shields.io/badge/TestNG-7.10-FF7F00?style=for-the-badge)
+![REST Assured](https://img.shields.io/badge/REST%20Assured-5.4-5A9E4B?style=for-the-badge)
+![JUnit 5](https://img.shields.io/badge/JUnit%205-5.10-25A162?style=for-the-badge&logo=junit5&logoColor=white)
+![Allure](https://img.shields.io/badge/Allure-2.29-FF6C37?style=for-the-badge)
 
-| Application | URL | Used for |
-|-------------|-----|----------|
-| The North Face | https://www.thenorthface.com/ | Bot-safe smoke / navigation (production, PerimeterX-protected) |
-| Automation Exercise | https://automationexercise.com/ ( [login](https://automationexercise.com/login) ) | Search, cart, checkout, auth & API E2E |
+![Last Commit](https://img.shields.io/github/last-commit/rbchy/NorthFace_AutomationExercise-BDD-Test-Automation?style=flat-square&color=e11d48&label=Last%20commit)
+![Repo Size](https://img.shields.io/github/repo-size/rbchy/NorthFace_AutomationExercise-BDD-Test-Automation?style=flat-square&color=155e75&label=Repo%20size)
+
+</div>
 
 ---
 
-## 📊 Latest Test Run
+## 📌 At a Glance
 
-**Allure report — 69 test cases, 100% passed.**
+<table>
+<tr>
+<td width="50%" valign="top">
 
-| Metric | Result |
-|--------|--------|
-| ✅ Total test cases (Allure, unified) | **69** |
-| ✅ Pass rate | **100%** |
-| ❌ Failed | **0** |
-| 🧩 Breakdown | **21** Cucumber scenarios + **48** JUnit 5 unit tests |
-| 🖥️ Verified on | Java 17 · Maven · macOS (also runs on Windows/Linux) |
+**🙋 What this is**
 
-> Numbers come from the generated **Allure** report (which unifies the Cucumber and JUnit
-> results into a single dashboard) and the Cucumber HTML report
-> (`target/cucumber-reports/report.html`).
+A multi-layer QA framework built against two real websites.
 
----
+**[thenorthface.com](https://www.thenorthface.com/)** is a production retail site protected by **PerimeterX**. It gets bot-safe smoke checks only.
 
-## 🚀 Overview
+**[automationexercise.com](https://automationexercise.com/)** is a live demo shop. It gets the full suite:
+- search → add to cart → checkout
+- sign-up and login, positive and negative
+- its public REST API
+- accessibility and page-load checks
 
-**NorthFace_Automation** was built against a **real, bot-protected production retail site**
-(https://www.thenorthface.com/) rather than a friendly demo app — and the standout part is how it
-handled the site fighting back, plus how the build itself was hardened.
+Pure price, cart and validator logic is covered by fast JUnit 5 tests.
 
-- The site (protected by **PerimeterX**) served a *"Press & Hold to confirm you are a human"* bot
-  challenge to the automated browser. This was diagnosed from a **live DOM dump** (`px-captcha-modal`
-  overlay intercepting clicks) — a real anti-bot system, not a locator bug.
-- The correct engineering call: keep North Face limited to **bot-safe smoke checks**, and run
-  the transactional **search → cart → checkout** flow against an automation-friendly target
-  (automationexercise.com) — exactly how a QA team points automation at a staging environment.
-- Real flakiness was removed at the source: the demo site's **Google Vignette interstitial ads** were
-  hijacking navigation, so ad/analytics domains are blackholed at the Chrome layer and navigation
-  happens by direct URL.
-- **Build stability:** `allure-cucumber7-jvm` and `allure-junit5` were previously pinned to
-  hardcoded versions, which pulled in an `io.cucumber:gherkin` transitively requiring
-  `io.cucumber:messages` in a version range that never overlapped with what `cucumber-java:7.18.0`
-  needed — a hard Maven dependency-resolution failure, not a code bug. Fixed by importing
-  `allure-bom` in `dependencyManagement` (see `pom.xml`) so the Allure artifact versions are resolved
-  consistently instead of hand-pinned; `allure-commandline` is kept on its own
-  `allure.report.version` property since it ships from a separate release train than the Allure
-  Java libraries.
+The whole thing runs **headless in GitHub Actions** on every push and once a day, so a change on the live sites shows up even when nobody commits. The results come together in one **Allure** report.
 
-*Diagnose → decide → stabilise* — the difference between following a tutorial and automating a messy,
-real application (and keeping its build green).
+</td>
+<td width="50%" valign="top">
+
+**📍 Quick facts**
+
+| | |
+|---|---|
+| 🥒 **BDD** | 9 features · 21 scenarios |
+| 🔌 **API** | 6 RestAssured scenarios |
+| 🧪 **Unit** | 64 JUnit 5 tests |
+| ✅ **CI** | 64 unit + 19 BDD green · ≈ 4.5 min |
+| 🛡️ **North Face** | 2 smoke checks, skipped with the reason when blocked |
+| 📊 **Reports** | Allure · Cucumber HTML / JSON · DOM dumps |
+| 🧰 **Extras** | JMeter load plan · OWASP ZAP baseline |
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 🛠️ Tech Stack
+## ✅ Latest Results (GitHub Actions)
 
-* **Language:** Java 17
-* **Automation Tool:** Selenium WebDriver 4.21
-* **BDD Framework:** Cucumber 7.18 (Gherkin)
-* **Test Runner:** TestNG
-* **API Testing:** RestAssured
-* **Unit Testing:** JUnit 5
-* **Load/Performance:** Apache JMeter
-* **Security (DAST):** OWASP ZAP
-* **Build Tool:** Maven (dependency versions managed via `junit-bom` + `allure-bom`)
-* **Driver Management:** WebDriverManager
-* **Reporting:** Allure 2.29.1 (libraries) / Allure Commandline 2.27.0 (report renderer)
-* **IDE:** Eclipse / IntelliJ
+| Job | What runs | Result |
+|---|---|---|
+| **Unit tests** | `mvn test -Punit`: price parsing / discounts, cart maths, email & password validators, cent-exact rounding | ✅ 64 / 64 |
+| **BDD – demo shop** | headless Chrome, `(@smoke or @regression) and not @northface`: UI, E2E, auth, API, accessibility, performance | ✅ 19 / 19 |
+| **North Face smoke** | `@northface` on the real site | ⏭️ 2 skipped: *"Blocked by the site's bot protection – CDN 'Access Denied' page"* |
+| **Allure report** | merges unit and BDD results into one report (downloadable artifact) | ✅ |
+
+> **Why the North Face checks are skipped in CI.** GitHub's cloud runners get an `Access Denied` page from the site's CDN, a 298-byte page instead of the store. That says nothing about the store itself. So the framework now **detects the bot wall** and marks those two scenarios as *skipped, with the reason*, instead of failing with a misleading "logo not displayed".
+>
+> From a normal home or office network they run and pass. The local run gives 21 / 21 Cucumber scenarios ([PDF](docs/reports/Cucumber%2021%20Pass%20Report.pdf)).
 
 ---
 
-## 📁 Project Structure
+## 🏗️ How It Fits Together
 
-```bash
-NorthFace_Automation/
-│
-├── src/test/java/com/northface/automation/
-│   ├── pages/            # Page Object Model (North Face)
-│   │   └── demo/         # Page Objects for the demo shop (E2E)
-│   ├── stepdefinitions/  # Cucumber glue: Common, DemoShop, Auth, Api, Accessibility, Performance, Hooks
-│   ├── runners/          # TestRunner (TestNG + Cucumber)
-│   ├── utils/            # ConfigReader, DriverManager (ad-domain blocking, DOM dumps)
-│   ├── lib/              # Pure logic: PriceUtils, CartCalculator, EmailValidator, PasswordValidator
-│   └── unit/             # JUnit 5 unit tests
-│
-├── src/test/resources/
-│   ├── features/         # Gherkin: smoke, navigation, search, cart, negative, auth, api, accessibility, performance
-│   └── config.properties # URLs, browser, headless, timeouts, perf budget
-│
-├── qa-extras/
-│   ├── jmeter/           # API load-test plan (.jmx)
-│   └── zap/              # OWASP ZAP baseline scan
-│
-├── .github/workflows/ci.yml   # CI: runs unit + API tests on every push
-├── run-all.bat / run-unit.bat / run-demo.bat / run-report.bat   # Windows
-├── run-report.sh                                                # macOS / Linux
-├── testng.xml            # TestNG suite
-├── pom.xml               # Maven dependencies (junit-bom + allure-bom) + `unit` profile
-└── README.md
+```mermaid
+flowchart LR
+    F[Gherkin features<br/>9 files · 21 scenarios] --> R[TestRunner<br/>Cucumber + TestNG]
+    R --> S[Step definitions<br/>shared TestContext via PicoContainer]
+    S --> P[Page Objects<br/>North Face · Demo shop]
+    S --> A[RestAssured<br/>demo shop API]
+    P --> D[DriverManager<br/>Chrome · ad-domain blackhole · headless]
+    D --> NF[(thenorthface.com<br/>PerimeterX)]
+    D --> AE[(automationexercise.com)]
+    A --> AE
+    U[JUnit 5 unit tests] --> L[lib/<br/>PriceUtils · CartCalculator · validators]
+    R --> REP[Allure · Cucumber HTML/JSON<br/>screenshot + DOM dump on failure]
+    U --> REP
+```
+
+### 🔁 CI pipeline
+
+```mermaid
+flowchart LR
+    T([push · PR · daily 10:17 UTC]) --> UT[Unit tests<br/>gates the build]
+    T --> BDD[BDD demo shop<br/>headless Chrome<br/>gates the build]
+    T --> NFS[North Face smoke<br/>informational]
+    UT --> AL[Allure report<br/>artifact]
+    BDD --> AL
 ```
 
 ---
 
-## 🎯 Test Coverage (69 tests · 100% passing)
+## 🎯 Test Coverage
 
-| Layer | Type | Tool | Positive / Negative | Count |
-|-------|------|------|:--:|:--:|
-| 🔥 UI | Smoke & navigation (North Face, bot-safe) | Selenium + Cucumber | + | 2 |
-| 🛒 E2E | Search → add-to-cart → checkout (demo shop) | Selenium + Cucumber | + | 8 |
-| 🔐 Functional | Auth: signup / invalid login | Selenium | +/− | 2 |
-| 🔌 API | productsList, brandsList, searchProduct, verifyLogin | RestAssured | +/− | 6 |
-| ♿ Accessibility | lang / title / accessible-name | Selenium + JS | +/− | 2 |
-| ⚡ Performance | page-load budget smoke | Selenium | +/− | 2 |
-| 🧪 Unit | price / cart-math / email / password validators | JUnit 5 | +/− | 48 |
-| 📈 Load | API load-test plan | Apache JMeter | — | scaffold |
-| 🛡️ Security | passive baseline scan | OWASP ZAP | — | scaffold |
-
-Every functional area has **positive and negative** cases; search is **data-driven** (`Scenario Outline` + `Examples`: dress, top, jeans, tshirt).
+| Layer | Feature / class | Tool | +/− | Count |
+|---|---|---|:--:|:--:|
+| 🔥 Smoke | North Face home page: logo, title, navigation | Selenium + Cucumber | + | 2 |
+| 🔥 Smoke | Demo shop home page loads | Selenium + Cucumber | + | 1 |
+| 🔎 Search | Data-driven: dress / top / jeans / tshirt (`Scenario Outline`) | Selenium + Cucumber | + | 4 |
+| 🚫 Negative search | Gibberish term shows no products | Selenium + Cucumber | − | 1 |
+| 🛒 E2E | Search → add first product → cart → checkout offered | Selenium + Cucumber | + | 1 |
+| 🔐 Auth | Start sign-up with a random email · invalid login rejected | Selenium + Cucumber | +/− | 2 |
+| 🔌 API | productsList · brandsList · searchProduct (with / without term) · verifyLogin (no params / unknown user) | RestAssured | +/− | 6 |
+| ♿ Accessibility | Document `lang`, non-empty title, search field has an accessible name | Selenium + JS | +/− | 2 |
+| ⚡ Performance | Page load within budget · guard check that the timer works | Selenium | +/− | 2 |
+| 🧪 Unit | `PriceUtils` · `CartCalculator` · `EmailValidator` · `PasswordValidator` · `MoneyRoundingTest` | JUnit 5 | +/− | 64 |
+| 📈 Load | Demo API load plan | Apache JMeter | — | scaffold |
+| 🛡️ Security | Passive baseline scan | OWASP ZAP | — | scaffold |
 
 ---
 
 ## ⚙️ Framework Highlights
 
-* ✔️ **BDD (Cucumber + Gherkin)** — human-readable scenarios
-* ✔️ **Page Object Model (POM)** — every locator lives in one place
-* ✔️ **Layered design** — pages · steps · runners · utils · lib · unit
-* ✔️ **Dependency Injection (PicoContainer)** — one shared `TestContext` per scenario, no static state
-* ✔️ **Config-driven** — URLs / browser / headless / timeouts / perf budget, overridable with `-Dkey=value`
-* ✔️ **Self-documenting failures** — screenshot **and** live-DOM dump to `target/dom-dumps/`
-* ✔️ **Flakiness controls** — ad-domain blocking + direct-URL navigation
-* ✔️ **Reproducible dependency resolution** — `allure-bom` import prevents Allure/Cucumber transitive
-  version conflicts (see Overview)
-* ✔️ **CI on every push** — GitHub Actions runs the deterministic unit + API suite (once pushed to your repo)
+- **BDD + Page Object Model:** readable Gherkin, and every locator lives in one page class.
+- **Dependency injection (PicoContainer):** one `TestContext` per scenario, no static state.
+- **Config-driven:** URLs, browser, headless mode, timeouts and the performance budget are in `config.properties`. Any of them can be overridden with `-Dkey=value`.
+- **Self-documenting failures:** a screenshot goes into the report, and the live DOM is dumped to `target/dom-dumps/`.
+- **Flakiness controls:** Google Vignette ad domains are blackholed at the Chrome layer, and the tests navigate by direct URL.
+- **Environment vs defect:** an anti-bot page is detected and reported as *skipped, with the reason*, not as a product bug.
+- **Reproducible dependencies:** `allure-bom` + `junit-bom` stop Allure from pulling in a Cucumber `messages` version that conflicts with Cucumber 7.18.
 
 ---
 
 ## ▶️ Running the Tests
 
+**You need:** JDK 17+, Maven 3.8+, Google Chrome (the driver is managed automatically), and internet access.
+
 ```bash
-# Full Cucumber suite (UI + E2E + API + a11y + perf) → 21 scenarios
-mvn clean test                                    # or run-all.bat (Windows)
+# Full Cucumber suite (UI + E2E + API + a11y + perf) - 21 scenarios
+mvn clean test                                   # Windows: run-all.bat
 
-# JUnit unit tests (fast, deterministic, no browser) → 48 tests
-mvn clean test -Punit                             # or run-unit.bat (Windows)
+# JUnit unit tests - 64 tests, no browser
+mvn clean test -Punit                            # Windows: run-unit.bat
 
-# Slice by tag
-mvn clean test -Dcucumber.filter.tags="@smoke"
+# By tag
+mvn clean test -Dcucumber.filter.tags="@smoke"   # Windows: run-smoke.bat
+mvn clean test -Dcucumber.filter.tags="@demo"    # Windows: run-demo.bat
 mvn clean test -Dcucumber.filter.tags="@api"
-mvn clean test -Dcucumber.filter.tags="@negative"
 
-# Headless (CI)
-mvn clean test -Dheadless=true
+# Exactly what CI runs
+mvn test -Dheadless=true "-Dcucumber.filter.tags=(@smoke or @regression) and not @northface"
+
+# Everything + interactive Allure report
+./run-report.sh                                  # Windows: run-report.bat
 ```
 
-Report: `target/cucumber-reports/report.html` (screenshots auto-attached on failure).
+| Report | Where |
+|---|---|
+| **Allure** (unit + Cucumber in one) | `mvn allure:serve`. In CI, download the **allure-report** artifact and serve it over HTTP: `python3 -m http.server`, because it does not open from `file://`. |
+| **Cucumber HTML / JSON** | `target/cucumber-reports/report.html` (screenshots attached on failure) |
+| **DOM dumps** | `target/dom-dumps/<scenario>.html` for every failed UI scenario |
+| **Saved reports from a local run** | [`docs/reports/`](docs/reports): Allure overview / suites / timeline PDFs, Cucumber 21-pass PDF |
 
 ---
 
-## 📈 Reporting
+## 📁 Project Structure
 
-Three report layers are available:
-
-| Report | What it shows | How to generate |
-|--------|---------------|-----------------|
-| **Allure** (recommended) | Unified interactive dashboard for **Cucumber + JUnit** — overview, pass/fail charts, suites, timeline | `./run-report.sh` (Mac/Linux) or `run-report.bat` (Windows) • or `mvn clean test` → `mvn test -Punit` → `mvn allure:serve` |
-| **Cucumber HTML** | BDD scenario report with steps + failure screenshots | auto-generated at `target/cucumber-reports/report.html` |
-| **Surefire HTML** | Plain JUnit/TestNG results table | `mvn surefire-report:report-only` |
-
-> `run-report.sh` / `run-report.bat` run the full Cucumber suite, then the JUnit tests (without
-> cleaning, so both sets land in `target/allure-results`), then open the interactive Allure report.
->
-> Opening `target/site/allure-maven-plugin/index.html` directly (double-click / `file://`) shows a
-> blank page — Allure's report loads its data via JavaScript `fetch()` calls that browsers block over
-> `file://`. Always view it through `mvn allure:serve`, or serve the folder yourself:
-> `cd target/site/allure-maven-plugin && python3 -m http.server 8000`.
-
----
-
-## 📌 Prerequisites
-
-* Java JDK **17+**
-* Maven 3.8+
-* Google Chrome (ChromeDriver auto-managed by WebDriverManager)
-* Internet connection (tests hit live sites)
-* macOS/Linux: `chmod +x run-report.sh` once, if it isn't already executable
-* *(Optional)* Docker for OWASP ZAP, Apache JMeter for load tests
+```text
+NorthFace_AutomationExercise-BDD-Test-Automation/
+├── .github/workflows/ci.yml          # unit · BDD · North Face smoke · Allure report · daily schedule
+├── src/test/java/com/northface/automation/
+│   ├── pages/                        # North Face page objects
+│   │   └── demo/                     # Automation Exercise page objects
+│   ├── stepdefinitions/              # Common · DemoShop · Auth · Api · Accessibility · Performance · Hooks
+│   ├── runners/TestRunner.java       # Cucumber + TestNG
+│   ├── utils/                        # ConfigReader · DriverManager
+│   ├── lib/                          # PriceUtils · CartCalculator · EmailValidator · PasswordValidator · Money
+│   └── unit/                         # JUnit 5 tests for lib/
+├── src/test/resources/
+│   ├── features/                     # 9 .feature files
+│   └── config.properties
+├── qa-extras/                        # JMeter load plan · OWASP ZAP baseline scripts
+├── docs/reports/                     # saved Allure / Cucumber reports (PDF / HTML)
+├── run-*.bat · run-report.sh         # one-click runners
+├── testng.xml
+└── pom.xml                           # junit-bom + allure-bom · `unit` profile
+```
 
 ---
 
-## 📈 Future Enhancements
+## 🧹 Maintenance Log
 
-* Enable **parallel execution** (TestNG data-provider)
-* Add **cross-browser** runs (Firefox, Edge) + **BrowserStack / Sauce Labs**
-* Data-driven from **Excel / JSON**
-* Expand JMeter (stress / endurance) and ZAP (active scan) coverage
-* Re-enable the CI badge once pushed to a personal GitHub repo with Actions configured
+The README was checked against the code, and these issues were fixed:
 
----
-
-## 👨‍💻 Author
-
-**Ranajit B Chowdhury**
-**QA Automation Engineer & SDET
-📧 Cell Phone 2673425565
-📧 chyranajit@gmail.com
+| Issue found | Fix |
+|---|---|
+| ❌ **No CI.** The README listed `.github/workflows/ci.yml` and "CI on every push", but the file did not exist. | Added a workflow with four jobs, a daily run, and an Allure report artifact |
+| 💲 **Prices were off by a cent.** `PriceUtils` / `CartCalculator` rounded binary doubles: $10.10 at 25 % off gave **$7.57** (should be $7.58), and $10.10 + 15 % tax gave $11.61 (should be $11.62). The old tests used a 0.001 tolerance on easy numbers, so they never saw it. | Switched to decimal (`BigDecimal`) half-up rounding, added `MoneyRoundingTest` with exact comparisons, and now reject NaN / infinity / null prices and negative shipping |
+| 🛡️ **North Face failures were misleading.** From cloud IPs the site returns *Access Denied*, and the tests reported "logo not displayed". | The bot wall is detected and reported as **skipped, with the reason**. A real missing logo would still fail. |
+| 🪟 **Windows scripts were missing.** `run-all.bat`, `run-unit.bat`, `run-demo.bat`, `run-smoke.bat` and `run-report.bat` were documented but not in the repo. | Added them (same content as the author's local copies) |
+| 📂 **Reports cluttered the root.** Nine report PDFs / HTML files sat in the repo root. | Moved to `docs/reports/`, and added a `.gitignore` |
+| 📝 **Stale README claims:** "CI badge removed from this fork", a count of 69 tests, and the CI section | Rewritten to match the code and the CI results |
 
 ---
 
-## 📄 Summary
+## 📈 Roadmap
 
-NorthFace_Automation is a real-world, industry-aligned framework that goes beyond happy-path UI testing:
-it spans **UI, E2E, API, unit, accessibility, performance, and security**, and backs every claim with a
-**verified 100% pass rate — 21/21 Cucumber scenarios plus 48 JUnit tests, 69 total**. It documents two
-kinds of genuine engineering decisions: working around a live PerimeterX bot wall, and resolving a real
-Maven dependency-range conflict in the Allure/Cucumber reporting stack. Built to be readable,
-maintainable, and interview-ready.
+- [ ] Parallel scenarios (`@DataProvider(parallel = true)`), with one browser per thread already supported by `DriverManager`
+- [ ] Firefox / Edge, and BrowserStack or Sauce Labs for the North Face smoke from residential IPs
+- [ ] Complete the checkout flow (address → payment → order confirmation) on the demo shop
+- [ ] Publish the Allure report to GitHub Pages
+- [ ] axe-core for a full accessibility audit
+- [ ] Run the JMeter and ZAP scaffolds against a self-hosted target in CI
+
+---
+
+## 🔗 Related Projects
+
+| Project | Stack |
+|---|---|
+| 🌲 [QaBrains Automation – Cypress](https://github.com/rbchy/QaBrainsAutomationCypressJavaScript) | Cypress · JavaScript · CI |
+| 🎭 [QaBrains Automation – Playwright TypeScript](https://github.com/rbchy/QaBrainsAutomationTypeScriptPlaywright) | Playwright · TypeScript · CI |
+| 🏦 [ParaBank Banking Automation](https://github.com/rbchy/ParaBank-BankingAutomationJavaSelenium) | Java · Selenium · CI |
+| 📱 [Appium Automation – API Demos](https://github.com/rbchy/AppiumAutomation_ApiDemos) | Appium · Android · CI |
+| ⭐ [RbcTcsWorld E-Commerce Suite](https://github.com/rbchy/RbcTcsWorld_ECommerceSuite) | Spring Boot · REST Assured · Selenium · Playwright · CI quality gates |
+
+<sub>All projects: [github.com/rbchy](https://github.com/rbchy)</sub>
+
+---
+
+## ⚠️ Disclaimer
+
+This is a **portfolio / training project**. The tests only read public pages of thenorthface.com, and they stop (skip) as soon as its bot protection challenges them. Transactional flows run on automationexercise.com, a site published for automation practice.
+
+---
+
+## 👤 Author
+
+<div align="center">
+
+**Ranajit Baran Chowdhury (RB Chowdhury)**
+QA Automation Engineer / SDET · West Norriton, Pennsylvania, USA
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rbchy/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/rbchy)
+[![Website](https://img.shields.io/badge/Website-rbchy.github.io%2Frbchy-0d9488?style=for-the-badge&logo=githubpages&logoColor=white)](https://rbchy.github.io/rbchy/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Website-blueviolet?style=for-the-badge&logo=wix&logoColor=white)](https://rbc6543.wixsite.com/rbc-portfolio)
+[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:chyranajit@gmail.com)
+
+<sub>MIT licensed — see [LICENSE](LICENSE).</sub>
+
+⭐ *If this project helps you, a star on the repo is appreciated.*
+
+</div>
