@@ -1,0 +1,121 @@
+# NorthFace / Automation Exercise BDD framework — CI
+#   unit       : JUnit 5 unit tests (no browser, deterministic)           -> gates the build
+#   bdd        : Cucumber scenarios on automationexercise.com, headless
+#                Chrome + RestAssured API tests (live site)                -> gates the build
+#   northface  : bot-safe smoke on thenorthface.com. The site sits behind
+#                PerimeterX, which may challenge cloud runner IPs, so this
+#                job is informational and never fails the build.
+#   report     : one Allure report from all three, uploaded as an artifact
+# A daily run catches changes on the live sites even when nobody pushes.
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 10 * * *"   # every day 10:17 UTC
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    name: Unit tests (JUnit 5)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+      - name: mvn test -Punit
+        run: mvn -B -ntp test -Punit
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-unit
+          path: target/allure-results
+          if-no-files-found: ignore
+
+  bdd:
+    name: BDD - demo shop UI + API (headless Chrome)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+      - name: Cucumber (@smoke or @regression, without @northface)
+        run: >
+          mvn -B -ntp test -Dheadless=true
+          "-Dcucumber.filter.tags=(@smoke or @regression) and not @northface"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cucumber-report-demo
+          path: |
+            target/cucumber-reports
+            target/dom-dumps
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-bdd
+          path: target/allure-results
+          if-no-files-found: ignore
+
+  northface:
+    name: North Face smoke (informational - bot wall)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+      - name: Cucumber (@northface)
+        run: mvn -B -ntp test -Dheadless=true "-Dcucumber.filter.tags=@northface"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: northface-smoke-report
+          path: |
+            target/cucumber-reports
+            target/dom-dumps
+          if-no-files-found: ignore
+
+  report:
+    name: Allure report
+    needs: [unit, bdd]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          path: target/allure-results
+          merge-multiple: true
+      - name: Build Allure report
+        run: mvn -B -ntp allure:report
+      - uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin
+          if-no-files-found: ignore

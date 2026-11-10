@@ -1,5 +1,6 @@
 package com.northface.automation.lib;
 
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,13 +41,16 @@ public final class PriceUtils {
      * @throws IllegalArgumentException on out-of-range inputs
      */
     public static double applyDiscount(double price, double percent) {
-        if (price < 0) {
+        if (!(price >= 0) || Double.isInfinite(price)) {
             throw new IllegalArgumentException("price must be >= 0");
         }
-        if (percent < 0 || percent > 100) {
+        if (!(percent >= 0 && percent <= 100)) {
             throw new IllegalArgumentException("percent must be within [0, 100]");
         }
-        double discounted = price * (1 - percent / 100.0);
-        return Math.round(discounted * 100.0) / 100.0;
+        // Decimal maths, not binary doubles: 10.10 at 25% off is 7.575 -> 7.58.
+        // The old Math.round(price * (1 - p/100) * 100) / 100 gave 7.57 (7.574999...).
+        return Money.round2(BigDecimal.valueOf(price)
+                .multiply(BigDecimal.valueOf(100).subtract(BigDecimal.valueOf(percent)))
+                .movePointLeft(2));
     }
 }
